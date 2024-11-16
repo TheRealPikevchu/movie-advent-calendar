@@ -11,6 +11,7 @@ Window.propTypes = {
   color: PropTypes.string,
   day: PropTypes.number,
   link: PropTypes.string,
+  openDay: PropTypes.func,
 }
 
 const WindowPlaceholder = styled.div`
@@ -43,7 +44,7 @@ WindowContent.propTypes = {
   screenWidth: PropTypes.number,
 }
 
-function Window({ screenWidth, pos, size, type, color, day, link }) {
+function Window({ screenWidth, pos, size, type, color, day, link, openDay }) {
   const [isOpen, setOpen] = useWindowOpenState(day, false)
 
   const date = new Date()
@@ -74,6 +75,7 @@ function Window({ screenWidth, pos, size, type, color, day, link }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
+              openDay(day)
               setOpen(true)
             }}
           >

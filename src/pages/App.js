@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ReactAudioPlayer from 'react-audio-player'
 import { Helmet } from 'react-helmet'
+import { useState } from 'react'
 
 const GridStyle = styled.div`
   display: grid;
@@ -62,9 +63,11 @@ function App() {
   const maxWidth = 1200
   const screenWidth = Math.min(useWindowDimensions().width, maxWidth)
 
-  const displayList = days.some(
-    (day, index) => JSON.parse(window.localStorage.getItem(index)) === true
-  )
+  const [openDays, setOpenDay] = useState(days)
+
+  function open(day) {
+    setOpenDay(days.map((d, index) => (index === day ? d : 1)))
+  }
 
   return (
     <div className="App">
@@ -92,13 +95,17 @@ function App() {
               color={cell.color}
               day={window?.day}
               link={window?.link}
+              openDay={open}
             />
           )
         })}
       </GridStyle>
       {
         //refresh this display when a cell is opened
-        displayList && (
+        openDays.some(
+          (day, index) =>
+            JSON.parse(window.localStorage.getItem(index)) === true
+        ) && (
           <FilmsList>
             <h2>Liste des films déjà ouverts : </h2>
             <ul>
