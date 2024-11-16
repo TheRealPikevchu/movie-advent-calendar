@@ -6,6 +6,7 @@ import useWindowDimensions from '../hooks/useWindowDimensions'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ReactAudioPlayer from 'react-audio-player'
+import { Helmet } from 'react-helmet'
 
 const GridStyle = styled.div`
   display: grid;
@@ -67,6 +68,9 @@ function App() {
 
   return (
     <div className="App">
+      <Helmet>
+        <title>Super calendrier de l'avent</title>
+      </Helmet>
       <header className="App-header">
         <h1>
           Le super calendrier de l'avent de <br /> Films de Noël pour Anaïs
