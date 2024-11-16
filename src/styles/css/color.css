@@ -1,0 +1,17 @@
+:root {
+  --color--primary__lighter: hsl(from var(--color--primary) h s calc(l + 25));
+  --color--primary__light: hsl(from var(--color--primary) h s calc(l + 15));
+  --color--primary: #d41616;
+  --color--primary__dark: hsl(from var(--color--primary) h s calc(l - 5));
+  --color--primary__darker: hsl(from var(--color--primary) h s calc(l - 15));
+  --color--secondary__lighter: hsl(
+    from var(--color--secondary) h s calc(l + 55)
+  );
+  --color--secondary__light: hsl(from var(--color--secondary) h s calc(l + 15));
+  --color--secondary: #308505;
+  --color--secondary__dark: hsl(from var(--color--secondary) h s calc(l - 5));
+  --color--secondary__darker: hsl(
+    from var(--color--secondary) h s calc(l - 15)
+  );
+  --color--highlight: #ffd700;
+}
