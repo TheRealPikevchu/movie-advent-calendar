@@ -14,15 +14,15 @@ const GridStyle = styled.div`
   overflow: hidden;
   justify-content: start;
   ${(props) =>
-    `grid-template-columns: repeat(5, calc((${props.screenWidth}px - 2em) / 5 ));
-     max-width: ${props.maxWidth}px;
+    `grid-template-columns: repeat(5, calc((${props.$screenWidth}px - 2em) / 5 ));
+     max-width: ${props.$maxWidth}px;
   `}
   padding: 1em;
 `
 
 GridStyle.propTypes = {
-  screenWidth: PropTypes.number,
-  maxWidth: PropTypes.number,
+  $screenWidth: PropTypes.number,
+  $maxWidth: PropTypes.number,
 }
 
 const FilmsList = styled.div`
@@ -56,17 +56,27 @@ const FilmsList = styled.div`
 `
 
 function App() {
+  const maxWidth = 1200
+  const screenWidth = Math.min(useWindowDimensions().width, maxWidth)
+
   let days = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]
 
-  const maxWidth = 1200
-  const screenWidth = Math.min(useWindowDimensions().width, maxWidth)
+  for (let index = 0; index < days.length; index++) {
+    if (JSON.parse(window.localStorage.getItem(index)) === true) {
+      days[index] = 1
+    }
+  }
 
   const [openDays, setOpenDay] = useState(days)
 
   function open(day) {
-    setOpenDay(days.map((d, index) => (index === day ? d : 1)))
+    setOpenDay(
+      openDays.map((d, index) => {
+        return index === day ? 1 : d
+      })
+    )
   }
 
   return (
@@ -79,7 +89,7 @@ function App() {
           Le super calendrier de l'avent de <br /> Films de Noël pour Anaïs
         </h1>
       </header>
-      <GridStyle screenWidth={screenWidth} maxWidth={maxWidth}>
+      <GridStyle $screenWidth={screenWidth} $maxWidth={maxWidth}>
         {gridTemplate.map((cell, index) => {
           const window = calendarContent.find((day) => day.day === cell.day)
           const position = [cell.position[0] + 1, cell.position[1] + 1]
@@ -100,38 +110,33 @@ function App() {
           )
         })}
       </GridStyle>
-      {
-        //refresh this display when a cell is opened
-        openDays.some(
-          (day, index) =>
-            JSON.parse(window.localStorage.getItem(index)) === true
-        ) && (
-          <FilmsList>
-            <h2>Liste des films déjà ouverts : </h2>
-            <ul>
-              {days.map((day, index) => {
-                return (
-                  JSON.parse(window.localStorage.getItem(index)) === true && (
-                    <li key={index}>
-                      <a
-                        href={
-                          calendarContent.find((day) => day.day === index).link
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {index +
-                          ' - ' +
-                          calendarContent.find((day) => day.day === index).name}
-                      </a>
-                    </li>
-                  )
+      {openDays.some((openday) => openday === 1) && (
+        <FilmsList>
+          <h2>Liste des films déjà ouverts : </h2>
+          <ul>
+            {openDays.map((openday, index) => {
+              return (
+                openday === 1 && (
+                  <li key={index}>
+                    <a
+                      href={
+                        calendarContent.find((date) => date.day === index)?.link
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {index +
+                        ' - ' +
+                        calendarContent.find((date) => date.day === index)
+                          ?.name}
+                    </a>
+                  </li>
                 )
-              })}
-            </ul>
-          </FilmsList>
-        )
-      }
+              )
+            })}
+          </ul>
+        </FilmsList>
+      )}
       <ReactAudioPlayer src="/audio/jingle-bells.mp3" autoPlay controls loop />
     </div>
   )

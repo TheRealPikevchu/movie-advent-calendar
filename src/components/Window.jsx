@@ -16,15 +16,15 @@ Window.propTypes = {
 
 const WindowPlaceholder = styled.div`
   display: flex;
-  ${(props) => `grid-row: ${props.pos[0]};`}
-  ${(props) => `grid-column: ${props.pos[1]};`}
-  ${(props) => `width: calc((${props.screenWidth}px - 2em) / 5 - 1em);`}
-  ${(props) => `height: calc((${props.screenWidth}px - 2em) / 5 - 1em);`}
+  ${(props) => `grid-row: ${props.$pos[0]};`}
+  ${(props) => `grid-column: ${props.$pos[1]};`}
+  ${(props) => `width: calc((${props.$screenWidth}px - 2em) / 5 - 1em);`}
+  ${(props) => `height: calc((${props.$screenWidth}px - 2em) / 5 - 1em);`}
 `
 
 WindowPlaceholder.propTypes = {
-  pos: PropTypes.array,
-  screenWidth: PropTypes.number,
+  $pos: PropTypes.array,
+  $screenWidth: PropTypes.number,
 }
 
 // Make this size better on PC
@@ -32,16 +32,16 @@ const WindowContent = styled.div`
   margin-left: 0.5em;
   margin-top: 0.5em;
   ${(props) =>
-    `width: calc(((${props.screenWidth}px - 2em) / 5 - 1em) * 
-    ${props.size[0]} + 1em * calc(${props.size[0]} - 1));`}
+    `width: calc(((${props.$screenWidth}px - 2em) / 5 - 1em) * 
+    ${props.$size[0]} + 1em * calc(${props.$size[0]} - 1));`}
   ${(props) =>
-    `height: calc(((${props.screenWidth}px - 2em) / 5 - 1em) * 
-    ${props.size[1]} + 0.25em * calc(${props.size[1]} - 1));`}
+    `height: calc(((${props.$screenWidth}px - 2em) / 5 - 1em) * 
+    ${props.$size[1]} + 0.25em * calc(${props.$size[1]} - 1));`}
 `
 
 WindowContent.propTypes = {
-  size: PropTypes.array,
-  screenWidth: PropTypes.number,
+  $size: PropTypes.array,
+  $screenWidth: PropTypes.number,
 }
 
 function Window({ screenWidth, pos, size, type, color, day, link, openDay }) {
@@ -51,13 +51,13 @@ function Window({ screenWidth, pos, size, type, color, day, link, openDay }) {
 
   return (
     <WindowPlaceholder
-      pos={pos}
-      screenWidth={screenWidth}
+      $pos={pos}
+      $screenWidth={screenWidth}
       className="window-placeholder"
     >
       <WindowContent
-        size={size}
-        screenWidth={screenWidth}
+        $size={size}
+        $screenWidth={screenWidth}
         className={
           'window-content' +
           ' ' +
