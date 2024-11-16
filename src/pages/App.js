@@ -5,6 +5,7 @@ import gridTemplate from '../data/grid-template'
 import useWindowDimensions from '../hooks/useWindowDimensions'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import ReactAudioPlayer from 'react-audio-player'
 
 const GridStyle = styled.div`
   display: grid;
@@ -53,11 +54,16 @@ const FilmsList = styled.div`
 `
 
 function App() {
-  let days = new Array(31)
-  days.fill(1)
+  let days = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]
 
   const maxWidth = 1200
   const screenWidth = Math.min(useWindowDimensions().width, maxWidth)
+
+  const displayList = days.some(
+    (day, index) => JSON.parse(window.localStorage.getItem(index)) === true
+  )
 
   return (
     <div className="App">
@@ -86,26 +92,36 @@ function App() {
           )
         })}
       </GridStyle>
-      <FilmsList>
-        <h2>Liste des films déjà ouverts : </h2>
-        <ul>
-          {days.map((day, index) => {
-            return (
-              JSON.parse(window.localStorage.getItem(index)) === true && (
-                <li key={index}>
-                  <a
-                    href={calendarContent.find((day) => day.day === index).link}
-                  >
-                    {index +
-                      ' - ' +
-                      calendarContent.find((day) => day.day === index).name}
-                  </a>
-                </li>
-              )
-            )
-          })}
-        </ul>
-      </FilmsList>
+      {
+        //refresh this display when a cell is opened
+        displayList && (
+          <FilmsList>
+            <h2>Liste des films déjà ouverts : </h2>
+            <ul>
+              {days.map((day, index) => {
+                return (
+                  JSON.parse(window.localStorage.getItem(index)) === true && (
+                    <li key={index}>
+                      <a
+                        href={
+                          calendarContent.find((day) => day.day === index).link
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {index +
+                          ' - ' +
+                          calendarContent.find((day) => day.day === index).name}
+                      </a>
+                    </li>
+                  )
+                )
+              })}
+            </ul>
+          </FilmsList>
+        )
+      }
+      <ReactAudioPlayer src="/audio/jingle-bells.mp3" autoPlay controls loop />
     </div>
   )
 }

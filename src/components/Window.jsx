@@ -26,6 +26,7 @@ WindowPlaceholder.propTypes = {
   screenWidth: PropTypes.number,
 }
 
+// Make this size better on PC
 const WindowContent = styled.div`
   margin-left: 0.5em;
   margin-top: 0.5em;
@@ -68,7 +69,14 @@ function Window({ screenWidth, pos, size, type, color, day, link }) {
       >
         {(date.getDate() >= day && date.getMonth() >= 10) ||
         date.getFullYear() > 2024 ? (
-          <a href={link} onClick={() => setOpen(true)}>
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
             {day}
           </a>
         ) : (
