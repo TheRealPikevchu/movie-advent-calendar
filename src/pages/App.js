@@ -56,7 +56,7 @@ const FilmsList = styled.div`
 `
 
 function App() {
-  const maxWidth = 1200
+  const maxWidth = 600
   const screenWidth = Math.min(useWindowDimensions().width, maxWidth)
 
   let days = [
