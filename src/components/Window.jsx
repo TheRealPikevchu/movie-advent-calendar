@@ -27,7 +27,6 @@ WindowPlaceholder.propTypes = {
   $screenWidth: PropTypes.number,
 }
 
-// Make this size better on PC
 const WindowContent = styled.div`
   margin-left: 0.5em;
   margin-top: 0.5em;

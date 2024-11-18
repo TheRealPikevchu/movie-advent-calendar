@@ -79,6 +79,13 @@ function App() {
     )
   }
 
+  const date = new Date()
+
+  // TODO : this need to auto update + countdown until 1st december
+  const formatCountdown = () => {
+    return `${24 - date.getHours()} heures ${60 - date.getMinutes()} minutes ${60 - date.getSeconds()} secondes `
+  }
+
   return (
     <div className="App">
       <Helmet>
@@ -89,6 +96,13 @@ function App() {
           Le super calendrier de l'avent de <br /> Films de Noël pour Anaïs
         </h1>
       </header>
+      {(date.getDate() < 24 || date.getFullYear() > 2024) && (
+        <p>
+          {formatCountdown()}
+          <br />
+          avant la prochaine case !!!
+        </p>
+      )}
       <GridStyle $screenWidth={screenWidth} $maxWidth={maxWidth}>
         {gridTemplate.map((cell, index) => {
           const window = calendarContent.find((day) => day.day === cell.day)
@@ -112,7 +126,7 @@ function App() {
       </GridStyle>
       {openDays.some((openday) => openday === 1) && (
         <FilmsList>
-          <h2>Liste des films déjà ouverts : </h2>
+          <h2>Liste des films déjà découverts : </h2>
           <ul>
             {openDays.map((openday, index) => {
               return (
@@ -137,7 +151,7 @@ function App() {
           </ul>
         </FilmsList>
       )}
-      <ReactAudioPlayer src="/audio/jingle-bells.mp3" autoPlay controls loop />
+      <ReactAudioPlayer src="/audio/jingle-bells.mp3" autoPlay loop />
     </div>
   )
 }
