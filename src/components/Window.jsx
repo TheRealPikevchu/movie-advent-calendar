@@ -75,6 +75,7 @@ function Window({ screenWidth, pos, size, type, color, day, link, openDay }) {
             href={link}
             target="_blank"
             rel="noopener noreferrer"
+            crossorigin="use-credentials"
             onClick={() => {
               openDay(day)
               setOpen(true)

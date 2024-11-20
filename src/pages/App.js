@@ -150,8 +150,7 @@ function App() {
           {timeLeft.days > 0 && <span>{timeLeft.days} jours </span>}
           {timeLeft.hours > 0 && <span>{timeLeft.hours} heures </span>}
           {timeLeft.minutes > 0 && <span>{timeLeft.minutes} minutes </span>}
-          {timeLeft.seconds} secondes
-          <br /> avant la première case du calendrier !
+          {timeLeft.seconds} secondes avant la première case du calendrier !
         </p>
       )}
       <GridStyle $screenWidth={screenWidth} $maxWidth={maxWidth}>
@@ -189,6 +188,7 @@ function App() {
                       }
                       target="_blank"
                       rel="noopener noreferrer"
+                      crossorigin="use-credentials"
                     >
                       {index +
                         ' - ' +
