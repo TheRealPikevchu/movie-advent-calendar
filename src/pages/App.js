@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ReactAudioPlayer from 'react-audio-player'
 import { Helmet } from 'react-helmet'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const GridStyle = styled.div`
   display: grid;
@@ -56,8 +56,46 @@ const FilmsList = styled.div`
 `
 
 function App() {
+  const startDate = new Date(`12/01/2024`)
   const maxWidth = 600
   const screenWidth = Math.min(useWindowDimensions().width, maxWidth)
+
+  const calculateTimeLeft = () => {
+    let difference = +startDate - +new Date()
+
+    let timeLeft = {}
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      }
+    }
+
+    return timeLeft
+  }
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
+
+  const isItTime = () => {
+    return (
+      (timeLeft.days === 0 &&
+        timeLeft.hours === 0 &&
+        timeLeft.minutes === 0 &&
+        timeLeft.seconds === 0) ||
+      +startDate < +new Date()
+    )
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft())
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  })
 
   let days = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -81,9 +119,14 @@ function App() {
 
   const date = new Date()
 
-  // TODO : this need to auto update + countdown until 1st december
   const formatCountdown = () => {
-    return `${24 - date.getHours()} heures ${60 - date.getMinutes()} minutes ${60 - date.getSeconds()} secondes `
+    let countDown = ''
+    countDown +=
+      24 - date.getHours() > 0 ? `${24 - date.getHours()} heures ` : ''
+    countDown +=
+      60 - date.getMinutes() > 0 ? `${24 - date.getMinutes()} minutes ` : ''
+    countDown += `${60 - date.getSeconds()} secondes`
+    return countDown
   }
 
   return (
@@ -96,11 +139,19 @@ function App() {
           Le super calendrier de l'avent de <br /> Films de Noël pour Anaïs
         </h1>
       </header>
-      {(date.getDate() < 24 || date.getFullYear() > 2024) && (
+      {isItTime() ? (
         <p>
           {formatCountdown()}
           <br />
           avant la prochaine case !!!
+        </p>
+      ) : (
+        <p>
+          {timeLeft.days > 0 && <span>{timeLeft.days} jours </span>}
+          {timeLeft.hours > 0 && <span>{timeLeft.hours} heures </span>}
+          {timeLeft.minutes > 0 && <span>{timeLeft.minutes} minutes </span>}
+          {timeLeft.seconds} secondes
+          <br /> avant la première case du calendrier !
         </p>
       )}
       <GridStyle $screenWidth={screenWidth} $maxWidth={maxWidth}>

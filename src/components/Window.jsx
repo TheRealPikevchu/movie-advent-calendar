@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import '../styles/css/Window.css'
 import useWindowOpenState from '../hooks/useWindowOpenState'
+import MidnightRefresh from './MidnightRefresh'
 
 Window.propTypes = {
   screenWidth: PropTypes.number,
@@ -54,6 +55,7 @@ function Window({ screenWidth, pos, size, type, color, day, link, openDay }) {
       $screenWidth={screenWidth}
       className="window-placeholder"
     >
+      <MidnightRefresh />
       <WindowContent
         $size={size}
         $screenWidth={screenWidth}
@@ -67,7 +69,7 @@ function Window({ screenWidth, pos, size, type, color, day, link, openDay }) {
           `window-content__${isOpen ? 'b-' : ''}${color}`
         }
       >
-        {(date.getDate() >= day && date.getMonth() >= 10) ||
+        {(date.getDate() >= day && date.getMonth() > 10) ||
         date.getFullYear() > 2024 ? (
           <a
             href={link}
