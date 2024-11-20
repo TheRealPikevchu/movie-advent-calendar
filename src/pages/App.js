@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import ReactAudioPlayer from 'react-audio-player'
 import { Helmet } from 'react-helmet'
 import { useEffect, useState } from 'react'
+import jingleBells from '../audio/jingle-bells.mp3'
 
 const GridStyle = styled.div`
   display: grid;
@@ -202,7 +203,7 @@ function App() {
           </ul>
         </FilmsList>
       )}
-      <ReactAudioPlayer src="/audio/jingle-bells.mp3" autoPlay loop />
+      <ReactAudioPlayer src={jingleBells} autoPlay loop />
     </div>
   )
 }
