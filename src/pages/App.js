@@ -204,10 +204,9 @@ function App() {
         </FilmsList>
       )}
       <ReactAudioPlayer
-        src="https://cdn.freesound.org/previews/65/65282_4948-lq.mp3"
+        src={jingleBells}
         crossorigin="anonymous"
         autoPlay
-        controls
         loop
       />
     </div>
