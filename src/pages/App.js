@@ -207,6 +207,7 @@ function App() {
         src="https://cdn.freesound.org/previews/65/65282_4948-lq.mp3"
         crossorigin="anonymous"
         autoPlay
+        controls
         loop
       />
     </div>
